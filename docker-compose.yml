@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  mymongo:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USERNAME:-root}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD:-rootpassword}
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - deployml_network
+    restart: always
+
+  tagservice:
+    image: tagservice:latest
+    build:
+      context: .
+    volumes:
+      - ./:/app/
+    networks:
+      - deployml_network
+    depends_on:
+      - mymongo
+    ports:
+      - 8002:8001
+    # env_file:
+    #   - ./.env
+
+networks:
+  deployml_network:
+    driver: bridge
+
+volumes:
+  mongodb-data:
+    name: "tag-mongo-data"
