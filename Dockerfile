@@ -1,7 +1,13 @@
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.6
 
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
-COPY requirements.txt /app
-RUN pip install --no-cache-dir -r /app/requirements.txt
 COPY . /app
+COPY requirements.txt /app
+
 WORKDIR /app
-CMD ["sh","run.sh"]
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENV PYTHONPATH /Users/driganka/.pyenv/shims/python
+
+#CMD ["sh","run.sh"]
+CMD ["uvicorn", "main:app", "--host=0.0.0.0", "--reload"]
