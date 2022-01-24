@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from api.v1.models.productsmodel import Products
 from api.v1.config.db import connection
+from api.v1.models.productsmodel import Products
 from api.v1.schemas.productsschema import productEntity, productsEntity
 
 productsrouter = APIRouter()
